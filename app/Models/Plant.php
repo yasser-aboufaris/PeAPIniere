@@ -4,8 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Plante extends Model
+class Plant extends Model
 {
+    
+    protected $fillable = [
+        'user_id',
+        'price',
+        'description',
+        'image',
+        'categorie_id',
+        'slug'
+
+    ];
+
     protected static function booted()
 {
     static::creating(function ($plante) {
