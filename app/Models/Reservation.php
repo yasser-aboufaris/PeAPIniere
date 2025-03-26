@@ -11,4 +11,8 @@ class Reservation extends Model
         'plant_id',
         'done',
     ];
+
+    public function Plant(){
+        return $this->belongsToOne(Plant::class);   
+    }
 }
