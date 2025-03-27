@@ -1,4 +1,6 @@
 <?php 
+namespace App\Repositories;
+use App\Repositories\Interfaces\categoryRepositoryInterface;
 class categoryRepository implements categoryRepositoryInterface {
     public function create(array $array){
         Category::create($array);

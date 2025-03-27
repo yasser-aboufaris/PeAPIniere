@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\PlanteRepositoryInterface;
+use App\Repositories\Interface\PlanteRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class PlanteController extends Controller
 {
@@ -14,42 +16,80 @@ class PlanteController extends Controller
         $this->planteRepository = $planteRepository;
     }
 
-    public function index()
+    public function index(): JsonResponse
     {
-        return response()->json($this->planteRepository->getAll());
+        try {
+            $plantes = $this->planteRepository->getAll();
+            return response()->json($plantes, Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch plants'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
-        $data = $request->validate([
-            'name' => 'required|string',
-            'species' => 'required|string',
-            'age' => 'required|integer',
-        ]);
-        
-        return response()->json($this->planteRepository->create($data), 201);
+        try {
+            // $data = $request->validate([
+            //     'name' => 'required|string|max:255',
+            //     'price' => 'required|integer|min:0',
+            //     'description' => 'required|string',
+            //     'image' => 'required|string',
+            //     'categorie_id' => 'required|integer|exists:categories,id',
+            //     'slug' => 'required|string|unique:plantes,slug'
+            // ]);
+
+            $plante = $this->planteRepository->create($data);
+            return response()->json($plante, Response::HTTP_CREATED);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to create plant','error' => $e], Response::HTTP_BAD_REQUEST);
+        }
     }
 
-    public function show($id)
+    public function show(int $id): JsonResponse
     {
-        return response()->json($this->planteRepository->getById($id));
+        try {
+            $plante = $this->planteRepository->getById($id);
+            if (!$plante) {
+                return response()->json(['error' => 'Plant not found'], Response::HTTP_NOT_FOUND);
+            }
+            return response()->json($plante, Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch plant'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id): JsonResponse
     {
-        $data = $request->validate([
-            'name' => 'sometimes|string',
-            'species' => 'sometimes|string',
-            'age' => 'sometimes|integer',
-        ]);
-        
-        return response()->json($this->planteRepository->update($id, $data));
+        try {
+            $data = $request->validate([
+                'name' => 'sometimes|string|max:255',
+                'price' => 'sometimes|integer|min:0',
+                'description' => 'sometimes|string',
+                'image' => 'sometimes|string',
+                'categorie_id' => 'sometimes|integer|exists:categories,id',
+                'slug' => 'sometimes|string|unique:plantes,slug,' . $id
+            ]);
+
+            $plante = $this->planteRepository->update($id, $data);
+            if (!$plante) {
+                return response()->json(['error' => 'Plant not found'], Response::HTTP_NOT_FOUND);
+            }
+            return response()->json($plante, Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to update plant'], Response::HTTP_BAD_REQUEST);
+        }
     }
 
-    public function destroy($id)
+    public function destroy(int $id): JsonResponse
     {
-        $this->planteRepository->delete($id);
-        return response()->json(['message' => 'Plante deleted successfully']);
+        try {
+            $deleted = $this->planteRepository->delete($id);
+            if (!$deleted) {
+                return response()->json(['error' => 'Plant not found'], Response::HTTP_NOT_FOUND);
+            }
+            return response()->json(['message' => 'Plant deleted successfully'], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete plant'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
-
 }

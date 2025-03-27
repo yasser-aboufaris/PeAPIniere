@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\PlanteController; 
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +27,4 @@ Route::controller(AuthController::class)->group(function () {
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 }); 
-Route
+Route::post('/plantes',[PlanteController::class, 'store']);

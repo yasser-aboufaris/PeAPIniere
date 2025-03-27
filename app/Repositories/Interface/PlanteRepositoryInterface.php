@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Repositories;
-
+namespace App\Repositories\Interface;
 interface PlanteRepositoryInterface {
     public function create(array $data);
     public function getAll();

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Plante;
+use App\Repositories\Interface\PlanteRepositoryInterface;
 
 class PlanteRepository implements PlanteRepositoryInterface {
     public function create(array $data) {
