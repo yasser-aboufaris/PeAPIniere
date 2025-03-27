@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('plant_id');
-            $table->foreign('plant_id')->references('id')->on('plants');
+            $table->foreign('plant_id')->references('id')->on('plantes');
             $table->integer('done');
             $table->timestamps();
         });

@@ -29,14 +29,14 @@ class PlanteController extends Controller
     public function store(Request $request): JsonResponse
     {
         try {
-            // $data = $request->validate([
-            //     'name' => 'required|string|max:255',
-            //     'price' => 'required|integer|min:0',
-            //     'description' => 'required|string',
-            //     'image' => 'required|string',
-            //     'categorie_id' => 'required|integer|exists:categories,id',
-            //     'slug' => 'required|string|unique:plantes,slug'
-            // ]);
+            $data = $request->validate([
+                'name' => 'required|string|max:255',
+                'price' => 'required|integer|min:0',
+                'description' => 'required|string',
+                'image' => 'required|string',
+                'categorie_id' => 'required|integer|exists:categories,id',
+                'slug' => 'required|string|unique:plantes,slug'
+            ]);
 
             $plante = $this->planteRepository->create($data);
             return response()->json($plante, Response::HTTP_CREATED);
