@@ -26,7 +26,7 @@ class PlanteController extends Controller
         }
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(Request $request)
     {
         try {
             $data = $request->validate([
