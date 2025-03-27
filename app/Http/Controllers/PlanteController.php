@@ -16,7 +16,7 @@ class PlanteController extends Controller
         $this->planteRepository = $planteRepository;
     }
 
-    public function index(): JsonResponse
+    public function index()
     {
         try {
             $plantes = $this->planteRepository->getAll();
@@ -35,15 +35,16 @@ class PlanteController extends Controller
                 'description' => 'required|string',
                 'image' => 'required|string',
                 'categorie_id' => 'required|integer|exists:categories,id',
-                'slug' => 'required|string|unique:plantes,slug'
             ]);
-
+    
             $plante = $this->planteRepository->create($data);
+    
             return response()->json($plante, Response::HTTP_CREATED);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to create plant','error' => $e], Response::HTTP_BAD_REQUEST);
+            return response()->json(['error' => 'Failed to create plant', 'details' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
         }
     }
+    
 
     public function show(int $id): JsonResponse
     {

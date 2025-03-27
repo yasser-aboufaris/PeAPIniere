@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Sluggable\Slugable;
+use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Support\Str;
 
-class Plant extends Model
+class Plante extends Model
 {
-    use Sluggable;
+    use HasSlug;
     protected $fillable = [
         'name',
         'price',
@@ -18,16 +19,12 @@ class Plant extends Model
         'categorie_id',
         'slug',
     ];
-
-    /**
-     * Get the options for generating the slug.
-     *
-     * @return \Spatie\Sluggable\SlugOptions
-     */
+    
+    
     public function getSlugOptions(): SlugOptions
-    {
-        return SlugOptions::create()
-            ->generateSlugFrom('name')  
-            ->saveSlugTo('slug');
-    }
+{
+    return SlugOptions::create()
+        ->generateSlugsFrom('name')
+        ->saveSlugsTo('slug');
+}
 }

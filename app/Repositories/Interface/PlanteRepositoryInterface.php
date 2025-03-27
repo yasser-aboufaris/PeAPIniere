@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Repositories\Interface;
 interface PlanteRepositoryInterface {
     public function create(array $data);
