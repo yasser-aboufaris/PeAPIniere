@@ -15,7 +15,6 @@ class categoryRepository implements CategoryRepositoryInterface {
     
     public function delete($id){
         return Category::destroy($id);
-    
     }
     
     
