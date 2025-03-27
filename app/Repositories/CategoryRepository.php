@@ -1,7 +1,9 @@
 <?php 
+
 namespace App\Repositories;
-use App\Repositories\Interfaces\categoryRepositoryInterface;
-class categoryRepository implements categoryRepositoryInterface {
+use App\Models\Category;
+use App\Repositories\Interface\CategoryRepositoryInterface;
+class categoryRepository implements CategoryRepositoryInterface {
     public function create(array $array){
         Category::create($array);
     }
@@ -10,10 +12,12 @@ class categoryRepository implements categoryRepositoryInterface {
         $categories = Category::all();
         return $categories;
     }
-
+    
     public function delete($id){
-        Category::destroy($id);
+        return Category::destroy($id);
+    
     }
     
-
-} 
+    
+    
+}

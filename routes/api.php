@@ -4,8 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\PlanteController; 
-
-
+use App\Http\Controllers\CategoryController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -28,3 +27,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 }); 
 Route::post('/plantes',[PlanteController::class, 'store']);
+Route::post('/categotries',[CategoryController::class, 'store']);
+Route::get('/categotries',[CategoryController::class, 'index']);
+Route::delete('/categotries/{id}',[CategoryController::class, 'destroy']);
+Route::put('/categotries/{id}',[CategoryController::class, 'update']);

@@ -21,17 +21,20 @@ class CategoryController extends Controller
             $categories = $this->categoryRepository->getAll();
             return response()->json($categories, Response::HTTP_OK);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to fetch categories'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            // return response()->json(['error' => 'Failed to fetch categories'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return 'fuck';
         }
     }
 
     public function store(Request $request): JsonResponse
     {
+        // dd($request);
         try {
             $data = $request->validate([
                 'name' => 'required|string|max:255',
                 'description' => 'nullable|string'
             ]);
+            // dd($data);
 
             $category = $this->categoryRepository->create($data);
             return response()->json($category, Response::HTTP_CREATED);
@@ -53,23 +56,6 @@ class CategoryController extends Controller
         }
     }
 
-    public function update(Request $request, int $id): JsonResponse
-    {
-        try {
-            $data = $request->validate([
-                'name' => 'sometimes|string|max:255',
-                'description' => 'nullable|string'
-            ]);
-
-            $category = $this->categoryRepository->update($id, $data);
-            if (!$category) {
-                return response()->json(['error' => 'Category not found'], Response::HTTP_NOT_FOUND);
-            }
-            return response()->json($category, Response::HTTP_OK);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to update category'], Response::HTTP_BAD_REQUEST);
-        }
-    }
 
     public function destroy(int $id): JsonResponse
     {

@@ -9,7 +9,7 @@ class PlanteRepository implements PlanteRepositoryInterface {
     public function create(array $data) {
         return Plante::create($data);
     }
-
+    
     public function getAll() {
         return Plante::all();
     }
