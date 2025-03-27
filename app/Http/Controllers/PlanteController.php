@@ -46,7 +46,7 @@ class PlanteController extends Controller
     }
     
 
-    public function show(int $id): JsonResponse
+    public function show(int $id)
     {
         try {
             $plante = $this->planteRepository->getById($id);
@@ -59,27 +59,26 @@ class PlanteController extends Controller
         }
     }
 
-    public function update(Request $request, int $id): JsonResponse
-    {
-        try {
-            $data = $request->validate([
-                'name' => 'sometimes|string|max:255',
-                'price' => 'sometimes|integer|min:0',
-                'description' => 'sometimes|string',
-                'image' => 'sometimes|string',
-                'categorie_id' => 'sometimes|integer|exists:categories,id',
-                'slug' => 'sometimes|string|unique:plantes,slug,' . $id
-            ]);
+    public function update(Request $request, int $id)
+{
+    try {
+        $data = $request->validate([
+            'name' => 'sometimes|string|max:255',
+            'price' => 'sometimes|integer|min:0',
+            'description' => 'sometimes|string',
+            'image' => 'sometimes|string',
+            'categorie_id' => 'sometimes|integer|exists:categories,id',
+        ]);
 
-            $plante = $this->planteRepository->update($id, $data);
-            if (!$plante) {
-                return response()->json(['error' => 'Plant not found'], Response::HTTP_NOT_FOUND);
-            }
-            return response()->json($plante, Response::HTTP_OK);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to update plant'], Response::HTTP_BAD_REQUEST);
+        $plante = $this->planteRepository->update($id, $data);
+        if (!$plante) {
+            return response()->json(['error' => 'Plant not found'], Response::HTTP_NOT_FOUND);
         }
+        return response()->json($plante, Response::HTTP_OK);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Failed to update plant', 'details' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
     }
+}
 
     public function destroy(int $id): JsonResponse
     {

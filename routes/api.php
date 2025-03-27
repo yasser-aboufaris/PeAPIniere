@@ -28,6 +28,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 }); 
 Route::post('/plantes',[PlanteController::class, 'store']);
 Route::get('/plantes',[PlanteController::class, 'index']);
+Route::put('/plantes/{id}',[PlanteController::class, 'update']);
+Route::delete('/plantes/{id}',[PlanteController::class, 'destroy']);
+
 
 Route::post('/categotries',[CategoryController::class, 'store']);
 Route::get('/categotries',[CategoryController::class, 'index']);
