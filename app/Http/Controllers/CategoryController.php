@@ -21,8 +21,8 @@ class CategoryController extends Controller
             $categories = $this->categoryRepository->getAll();
             return response()->json($categories, Response::HTTP_OK);
         } catch (\Exception $e) {
-            // return response()->json(['error' => 'Failed to fetch categories'], Response::HTTP_INTERNAL_SERVER_ERROR);
-            return 'fuck';
+            return response()->json(['error' => 'Failed to fetch categories'], Response::HTTP_INTERNAL_SERVER_ERROR);
+
         }
     }
 
