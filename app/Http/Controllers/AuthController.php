@@ -18,32 +18,35 @@ class AuthController extends Controller
     
 
     public function register(Request $request)
-{
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users',
-        'password' => 'required|string|min:6',
-    ]);
-
-    $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-    ]);
-
-    $token = JWTAuth::fromUser($user);
-
-    return response()->json([
-        'status' => 'success',
-        'message' => 'User created successfully',
-        'user' => $user,
-        'authorization' => [
-            'token' => $token,
-            'type' => 'bearer',
-        ]
-    ]);
-}
-
+    {
+        // Validate incoming request data
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed', 
+            'role_id' => 'nullable|exists:roles,id', 
+        ]);
+    
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role_id' => $request->role_id,  
+        ]);
+    
+        $token = JWTAuth::fromUser($user);
+    
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User created successfully',
+            'user' => $user,
+            'authorization' => [
+                'token' => $token,
+                'type' => 'bearer',
+            ]
+        ]);
+    }
+    
 
     public function login(Request $request)
     {
@@ -51,25 +54,24 @@ class AuthController extends Controller
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
-
+    
         $credentials = $request->only('email', 'password');
-
-        if (!$token = Auth::attempt($credentials)) {
+    
+        if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Unauthorized',
             ], 401);
         }
-
+    
         return response()->json([
             'status' => 'success',
             'user' => Auth::user(),
-            'authorization' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
+            'access_token' => $token, 
+            'token_type' => 'bearer',  
         ]);
     }
+    
 
     public function logout()
     {

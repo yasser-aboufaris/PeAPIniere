@@ -32,6 +32,8 @@ Route::post('/plantes',[PlanteController::class, 'store']);
 Route::get('/plantes',[PlanteController::class, 'index']);
 Route::put('/plantes/{id}',[PlanteController::class, 'update']);
 Route::delete('/plantes/{id}',[PlanteController::class, 'destroy']);
+Route::get('plantes/{slug}', [PlanteController::class, 'showBySlug']);
+
 
 ////////////////////////////////////////////////////
 Route::post('/categotries',[CategoryController::class, 'store']);
@@ -40,7 +42,12 @@ Route::delete('/categotries/{id}',[CategoryController::class, 'destroy']);
 Route::put('/categotries/{id}',[CategoryController::class, 'update']);
 
 /////////////////////////////////////////////
-Route::post('/plantes/reservations' , [ReservationController::class],'reserve');
-Route::get('/user/reservations/{id}');
+Route::post('/plantes/reservations' , [ReservationController::class,'store']);
 Route::post('plante/reservations');
-Route::put('plante/reservation/{id}');
+Route::get('plante/reservations/{id}', [ReservationController::class,'getPlantReservations']);
+Route::put('/reservations/done/{id}',[ReservationController::class, 'markAsDone']);
+
+///////////////////////////////////////////////
+// Route::get('/user/reservations/{id}');
+
+

@@ -27,6 +27,9 @@ class ReservationRepository implements ReservationRepositoryInterface {
     public function delete($id) {
         return Reservation::destroy($id);
     }
+    public function getByPlantId($plantId) {
+        return Reservation::where('plant_id', $plantId)->get();
+    }
 
     
 }

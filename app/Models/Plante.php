@@ -27,4 +27,9 @@ class Plante extends Model
         ->generateSlugsFrom('name')
         ->saveSlugsTo('slug');
 }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
 }

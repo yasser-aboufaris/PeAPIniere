@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Interface;
 
 interface ReservationRepositoryInterface {
     public function create(array $data);

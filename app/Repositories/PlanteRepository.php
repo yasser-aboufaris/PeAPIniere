@@ -18,6 +18,14 @@ class PlanteRepository implements PlanteRepositoryInterface {
         return Plante::findOrFail($id);
     }
 
+
+
+public function findBySlug($slug)
+{
+    return Plante::where('slug', $slug)->get();
+}
+
+
     public function update($id, array $data) {
         $plante = Plante::findOrFail($id);
         $plante->update($data);

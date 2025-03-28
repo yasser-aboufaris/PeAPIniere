@@ -23,6 +23,11 @@ class AppServiceProvider extends ServiceProvider
         \App\Repositories\Interface\CategoryRepositoryInterface::class,
         \App\Repositories\CategoryRepository::class
     );
+
+    $this->app->bind(
+        \App\Repositories\Interface\ReservationRepositoryInterface::class,
+        \App\Repositories\ReservationRepository::class
+    );
 }
 
     /**
