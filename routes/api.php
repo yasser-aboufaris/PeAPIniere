@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PlanteController; 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ReservationController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -37,3 +38,9 @@ Route::post('/categotries',[CategoryController::class, 'store']);
 Route::get('/categotries',[CategoryController::class, 'index']);
 Route::delete('/categotries/{id}',[CategoryController::class, 'destroy']);
 Route::put('/categotries/{id}',[CategoryController::class, 'update']);
+
+/////////////////////////////////////////////
+Route::post('/plantes/reservations' , [ReservationController::class],'reserve');
+Route::get('/user/reservations/{id}');
+Route::post('plante/reservations');
+Route::put('plante/reservation/{id}');
